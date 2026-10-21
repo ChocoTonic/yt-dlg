@@ -5,10 +5,12 @@ Attributes:
         UpdateThread thread.
 
 """
+
 from __future__ import annotations
 
 import json
 import os
+import ssl
 import stat
 from pathlib import Path
 from threading import Thread
@@ -17,6 +19,7 @@ from urllib.error import HTTPError, URLError
 from urllib.request import urlopen
 
 import wx
+import certifi
 
 # noinspection PyPep8Naming
 from pubsub import pub as Publisher
@@ -85,7 +88,11 @@ class UpdateThread(Thread):
         """Get the URL file name of the latest asset"""
         source_file: str = self.GITHUB_API
         try:
-            stream = urlopen(self.LATEST_YOUTUBE_DL_API, timeout=self.DOWNLOAD_TIMEOUT)
+            stream = urlopen(
+                self.LATEST_YOUTUBE_DL_API,
+                timeout=self.DOWNLOAD_TIMEOUT,
+                context=ssl.create_default_context(cafile=certifi.where()),
+            )
 
             latest_json: dict[str, Any] = json.load(stream)
             latest_assets: list[dict[str, Any]] = latest_json["assets"]
@@ -108,7 +115,11 @@ class UpdateThread(Thread):
         check_path(self.download_path)
 
         try:
-            stream = urlopen(source_file, timeout=self.DOWNLOAD_TIMEOUT)
+            stream = urlopen(
+                source_file,
+                timeout=self.DOWNLOAD_TIMEOUT,
+                context=ssl.create_default_context(cafile=certifi.where()),
+            )
 
             with open(destination_file, "wb") as dest_file:
                 dest_file.write(stream.read())
