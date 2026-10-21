@@ -343,12 +343,13 @@ if __name__ == "__main__":
         install_requires=[
             "pypubsub>=4.0.3",
             "numpy",
+            "pillow>=13.0.0",
             "wxPython<=4.2.1,>=4.0.7.post2",
         ],
         extras_require={
-            "binaries": ["polib>=1.1.0", "pyinstaller<=5.12.0,>=3.6"],
+            "binaries": ["polib>=1.1.0", "pyinstaller>=6.0.0,<7"],
         },
-        python_requires=">=3.8",
+        python_requires=">=3.11",
         classifiers=[
             "Topic :: Multimedia :: Video",
             "Development Status :: 5 - Production/Stable",
@@ -358,9 +359,6 @@ if __name__ == "__main__":
             "License :: Public Domain",
             "Programming Language :: Python :: 3",
             "Programming Language :: Python :: 3 :: Only",
-            "Programming Language :: Python :: 3.8",
-            "Programming Language :: Python :: 3.9",
-            "Programming Language :: Python :: 3.10",
             "Programming Language :: Python :: 3.11",
             "Programming Language :: Python :: Implementation :: CPython",
         ],

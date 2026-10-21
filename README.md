@@ -48,6 +48,8 @@ winget install -e --id yt-dlg.yt-dlg
 
 ### Install From Source
 > **Note**
+> Current development requires Python 3.11 or later so wxPython can use the patched Pillow 13 dependency.
+
 > The latest version compatible with Python 3.6.1 is [yt-dlg v1.8.2](https://github.com/oleksis/youtube-dl-gui/releases/tag/v1.8.2)
 
 In Windows we have the following options:
@@ -109,8 +111,8 @@ sudo apt-get install -y apt-utils build-essential dpkg-dev \
 
 ### Setting the virtual environment and activate
 ```bash
-sudo apt-get install -y python3.9 python3.9-dev libpython3.9-dev python3.9-venv
-python3.9 -m venv venv
+sudo apt-get install -y python3.11 python3.11-dev libpython3.11-dev python3.11-venv
+python3.11 -m venv venv
 source venv/bin/activate
 python3 -m pip install --upgrade pip setuptools wheel
 ```
@@ -166,8 +168,8 @@ sudo zypper install python38-yt-dlg
 yt-dlg
 ```
 
-### With Python 3.8
-The following steps can be executed if you use the Python version of the system (3.8, 3.9, 3.10)
+### With Python 3.11
+The following steps require Python 3.11 or later.
 
 ```bash
 sudo zypper dup  # Distribition Upgrade
@@ -192,7 +194,7 @@ Need at least one font installed
 sudo zypper -n install python38-wxPython google-opensans-fonts
 ```
 
-### Install other dev packages/tools for Python 3.8
+### Install other dev packages/tools for Python 3.11
 ```bash
 sudo zypper -n install python38-pip python38-setuptools python38-devel python38-tools python38-virtualenv python38-requests
 ```
