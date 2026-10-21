@@ -341,6 +341,7 @@ if __name__ == "__main__":
         license=youtube_dl_gui.__license__,
         packages=[youtube_dl_gui.__packagename__],
         install_requires=[
+            "certifi>=2026.10.19",
             "pypubsub>=4.0.3",
             "numpy",
             "pillow>=13.0.0",

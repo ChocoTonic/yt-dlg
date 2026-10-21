@@ -1,10 +1,13 @@
 """Contains test cases for the updatemanager.py module."""
 
 import sys
+import ssl
 import unittest
 from io import StringIO
 from pathlib import Path
 from unittest import mock
+
+import certifi
 
 PATH = Path(__file__).parent
 sys.path.insert(0, str(PATH.parent))
@@ -45,6 +48,24 @@ class TestUpdateThread(unittest.TestCase):
         mock_check_path.assert_called_once()
         self.assertEqual(update_thread.cli_backend, YOUTUBEDL_BIN)
         self.assertEqual(update_thread.name, "UpdateManager")
+        self.assertEqual(mock_urlopen.call_count, 2)
+        expected = ssl.create_default_context(cafile=certifi.where())
+        for call in mock_urlopen.call_args_list:
+            context = call.kwargs["context"]
+            self.assertTrue(context.check_hostname)
+            self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+            self.assertEqual(
+                set(context.get_ca_certs(binary_form=True)),
+                set(expected.get_ca_certs(binary_form=True)),
+            )
+            self.assertFalse(
+                any(
+                    value in {"AAA Certificate Services", "emSign Root TLS CA - G3"}
+                    for ca in context.get_ca_certs()
+                    for rdn in ca["subject"]
+                    for _, value in rdn
+                )
+            )
 
 
 def main():
