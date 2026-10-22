@@ -2,7 +2,7 @@ certifi>=2026.10.19
 numpy==1.24.3
 pypubsub==4.0.3
 six==1.16.0
-wxpython<=4.2.1,>=4.0.7.post2
+wxpython>=4.2.1,<5
 
 # Requirements for Windows and ManyLinux 2014
 pillow>=13.0.0

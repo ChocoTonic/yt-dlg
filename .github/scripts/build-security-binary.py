@@ -4,6 +4,7 @@ import importlib.metadata
 import json
 import os
 from pathlib import Path
+import ssl
 import subprocess
 import sys
 import tempfile
@@ -48,6 +49,7 @@ metadata = {
     'source_revision': revision,
     'platform': sys.platform,
     'python': sys.version,
+    'openssl': ssl.OPENSSL_VERSION,
     'binary': binary.name,
     'binary_sha256': hashlib.sha256(binary.read_bytes()).hexdigest(),
     'certifi_bundle_sha256': hashlib.sha256(bundle).hexdigest(),

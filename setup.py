@@ -345,7 +345,7 @@ if __name__ == "__main__":
             "pypubsub>=4.0.3",
             "numpy",
             "pillow>=13.0.0",
-            "wxPython<=4.2.1,>=4.0.7.post2",
+            "wxPython>=4.2.1,<5",
         ],
         extras_require={
             "binaries": ["polib>=1.1.0", "pyinstaller>=6.0.0,<7"],
