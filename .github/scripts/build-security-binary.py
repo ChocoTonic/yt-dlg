@@ -20,14 +20,14 @@ run(sys.executable, 'setup.py', 'build_trans')
 run(sys.executable, '-m', 'PyInstaller', '--onefile', '--windowed', '--noconfirm',
     '--clean', '--name', 'yt-dlg', '--distpath', 'security-dist',
     '--workpath', '.binary-work', '--specpath', '.binary-work',
-    '--add-data', f'youtube_dl_gui/data{os.pathsep}youtube_dl_gui/data',
-    '--add-data', f'youtube_dl_gui/locale{os.pathsep}youtube_dl_gui/locale',
+    '--add-data', f'{Path("youtube_dl_gui/data").resolve()}{os.pathsep}youtube_dl_gui/data',
+    '--add-data', f'{Path("youtube_dl_gui/locale").resolve()}{os.pathsep}youtube_dl_gui/locale',
     '--collect-data', 'certifi', '--exclude-module', 'tests',
     'youtube_dl_gui/__main__.py')
 
-import certifi
-from packaging.version import Version
-from PyInstaller.archive.readers import CArchiveReader
+certifi = importlib.import_module('certifi')
+Version = importlib.import_module('packaging.version').Version
+CArchiveReader = importlib.import_module('PyInstaller.archive.readers').CArchiveReader
 
 assert Version(importlib.metadata.version('certifi')) >= Version('2026.10.19')
 output = Path('security-dist')
