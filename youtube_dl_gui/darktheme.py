@@ -31,9 +31,9 @@ def dark_row_formatter(listctrl: wx.ListCtrl, dark: bool = False) -> None:
     for index, item in enumerate(items):
         if dark:
             if index % 2:
-                item.SetBackgroundColor(DARK_BACKGROUND_COLOUR)
+                item.SetBackgroundColour(DARK_BACKGROUND_COLOUR)
             else:
-                item.SetBackgroundColor(DARK_LIGHTGREY_COLOUR)
+                item.SetBackgroundColour(DARK_LIGHTGREY_COLOUR)
 
         listctrl.SetItem(item)
 

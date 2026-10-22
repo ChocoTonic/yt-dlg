@@ -1,5 +1,5 @@
 certifi>=2026.10.19
 pypubsub==4.0.3
 numpy
-wxpython<=4.2.1,>=4.0.7.post2
+wxpython>=4.2.1,<5
 pillow>=13.0.0

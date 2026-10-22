@@ -136,7 +136,7 @@ class OptionsFrame(wx.Frame):
         for tab, _label in self.tabs:
             cast("TabPanel", tab).save_options()
 
-    def Show(self, *args, **kwargs) -> None:
+    def Show(self, *args, **kwargs) -> bool:
         """Shows options frame centered"""
         # CenterOnParent can't go to main frame's __init__ as main frame may change
         # own position and options frame won't be centered on main frame anymore.
@@ -163,14 +163,14 @@ class TabPanel(wx.Panel):
 
     """
 
-    CHECKBOX_SIZE: tuple[int, int] = wx.DefaultSize
+    CHECKBOX_SIZE: wx.Size | tuple[int, int] = wx.DefaultSize
     if IS_WINDOWS:
         # Make checkboxes look the same on Windows
         CHECKBOX_SIZE = (-1, 20)
 
-    BUTTONS_SIZE: tuple[int, int] = wx.DefaultSize
-    TEXTCTRL_SIZE: tuple[int, int] = wx.DefaultSize
-    SPINCTRL_SIZE: tuple[int, int] = wx.DefaultSize
+    BUTTONS_SIZE: wx.Size | tuple[int, int] = wx.DefaultSize
+    TEXTCTRL_SIZE: wx.Size | tuple[int, int] = wx.DefaultSize
+    SPINCTRL_SIZE: wx.Size | tuple[int, int] = wx.DefaultSize
 
     CHECKLISTBOX_SIZE: tuple[int, int] = (-1, 80)
     LISTBOX_SIZE: tuple[int, int] = (-1, 80)
@@ -257,7 +257,7 @@ class TabPanel(wx.Panel):
     def crt_spinctrl(
         self,
         spin_range: tuple[int, int] = (0, 9999),
-        size: tuple[int, int] | None = None,
+        size: wx.Size | tuple[int, int] | None = None,
     ) -> wx.SpinCtrl:
         if not size:
             size = self.SPINCTRL_SIZE if IS_WINDOWS else (130, -1)

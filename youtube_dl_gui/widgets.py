@@ -103,12 +103,12 @@ class ListBoxWithHeaders(wx.ListBox):
 
     # wx.ListBox methods
 
-    def FindString(self, string: str, **kwargs) -> int:
-        index = super().FindString(string, **kwargs)
+    def FindString(self, string: str, caseSensitive: bool = False, **kwargs) -> int:
+        index = super().FindString(string, caseSensitive, **kwargs)
 
         if index == wx.NOT_FOUND:
             # This time try with prefix
-            index = super().FindString(self._add_prefix(string), **kwargs)
+            index = super().FindString(self._add_prefix(string), caseSensitive, **kwargs)
 
         return index
 
@@ -143,15 +143,17 @@ class ListBoxWithHeaders(wx.ListBox):
 
         super().SetString(index, string)
 
-    def SetStringSelection(self, string: str) -> bool:
+    def SetStringSelection(self, string: str, select: bool = True) -> bool:
         if string in self.__headers:
             return False
 
-        self.SetSelection(
-            self.FindString(
-                string,
-            )
-        )
+        index = self.FindString(string)
+        if select:
+            self.SetSelection(index)
+        else:
+            if index == wx.NOT_FOUND:
+                return False
+            self.Deselect(index)
         return True
 
     # wx.ItemContainer methods
@@ -229,7 +231,7 @@ class ListBoxComboPopup(wx.ComboPopup):
     def Init(self) -> None:
         self.value = self.curitem = -1
 
-    def Create(self, parent: wx.ComboCtrl, **kwargs) -> bool:
+    def Create(self, parent: wx.Window, **kwargs) -> bool:
         # Create components
         self.__listbox = ListBoxWithHeaders(parent, style=wx.LB_SINGLE)
 

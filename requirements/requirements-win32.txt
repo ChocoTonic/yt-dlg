@@ -2,5 +2,5 @@ certifi>=2026.10.19
 numpy==1.24.3
 pypubsub==4.0.3
 six==1.16.0
-wxpython==4.2.1
+wxpython==4.3.2
 pillow>=13.0.0
