@@ -11,6 +11,11 @@ PATH = Path(__file__).parent
 sys.path.insert(0, str(PATH.parent))
 
 from youtube_dl_gui.widgets import ListBoxWithHeaders
+from youtube_dl_gui.darktheme import (
+    DARK_BACKGROUND_COLOUR,
+    DARK_LIGHTGREY_COLOUR,
+    dark_row_formatter,
+)
 
 
 class TestListBoxWithHeaders(unittest.TestCase):
@@ -59,6 +64,14 @@ class TestListBoxWithHeaders(unittest.TestCase):
                 "item",
             ),
             wx.NOT_FOUND,
+        )
+
+    def test_find_string_case_sensitive_positional_and_keyword(self):
+        self.assertEqual(self.listbox.FindString("ITEM1", False), 2)
+        self.assertEqual(self.listbox.FindString("ITEM1", True), wx.NOT_FOUND)
+        self.assertEqual(self.listbox.FindString("ITEM1", caseSensitive=False), 2)
+        self.assertEqual(
+            self.listbox.FindString("ITEM1", caseSensitive=True), wx.NOT_FOUND
         )
 
     def test_get_string_header(self):
@@ -117,6 +130,26 @@ class TestListBoxWithHeaders(unittest.TestCase):
     def test_set_string_selection_item(self):
         self.assertTrue(self.listbox.SetStringSelection("item1"))
         self.assertTrue(self.listbox.IsSelected(2))
+
+    def test_set_string_selection_false_preserves_other_selection(self):
+        listbox = ListBoxWithHeaders(self.frame, style=wx.LB_MULTIPLE)
+        listbox.add_items(["first", "second"])
+        listbox.SetSelection(0)
+        listbox.SetSelection(1)
+        self.assertTrue(listbox.SetStringSelection("first", False))
+        self.assertFalse(listbox.IsSelected(0))
+        self.assertTrue(listbox.IsSelected(1))
+        self.assertFalse(listbox.SetStringSelection("missing", select=False))
+        self.assertTrue(listbox.IsSelected(1))
+
+    def test_dark_row_formatter_uses_actual_wx_colour_api(self):
+        rows = wx.ListCtrl(self.frame, style=wx.LC_REPORT)
+        rows.InsertColumn(0, "Name")
+        rows.InsertItem(0, "first")
+        rows.InsertItem(1, "second")
+        dark_row_formatter(rows, dark=True)
+        self.assertEqual(rows.GetItemBackgroundColour(0), DARK_LIGHTGREY_COLOUR)
+        self.assertEqual(rows.GetItemBackgroundColour(1), DARK_BACKGROUND_COLOUR)
 
     def test_get_string_selection(self):
         self.listbox.SetSelection(1)
